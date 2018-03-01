@@ -42,6 +42,19 @@ def get_free_cars():
             result.append(car)
     return result
 
+def sort_df(df, column_idx, key):
+    '''Takes dataframe, column index and custom function for sorting, 
+    returns dataframe sorted by this column using this function'''
+    
+    col = df.ix[:,column_idx]
+    temp = pd.DataFrame([])
+    temp[0] = col
+    temp[1] = df.index
+    temp = temp.values.tolist()
+    df = df.ix[[i[1] for i in sorted(temp, key=key)]]
+    
+    return df
+
 
 possibleRides = []
 impossibleRides = []
@@ -63,7 +76,11 @@ for i in rides.values:
 # Sorting
 possibleRides = pd.DataFrame(possibleRides, columns=[str(x) for x in range(7)])
 impossibleRides = pd.DataFrame(impossibleRides, columns=[str(x) for x in range(7)])
-possibleRides = possibleRides.sort_values(by='5', ascending=False)
+possibleRides['dist'] = abs(possibleRides['1'] - possibleRides['3']) + abs(possibleRides['2'] - possibleRides['4'])
+
+possibleRides = possibleRides.sort_values(by=['dist'], ascending=True)
+possibleRides = possibleRides.drop('dist', axis = 1)
+# possible_rides = sort_df(possible_rides)
 if len(impossibleRides) > 0:
     impossibleRides = impossibleRides.sort_values(by='5')
 
