@@ -6,7 +6,7 @@ import pandas as pd
 from shared import *
 
 PATH = ""
-FILE = "d_metropolis"
+FILE = "c_no_hurry"
 
 
 # ROWS: index, xstart, ystart, xend, yend, start, stop
@@ -63,7 +63,7 @@ for i in rides.values:
 # Sorting
 possibleRides = pd.DataFrame(possibleRides, columns=[str(x) for x in range(7)])
 impossibleRides = pd.DataFrame(impossibleRides, columns=[str(x) for x in range(7)])
-possibleRides = possibleRides.sort_values(by='5')
+possibleRides = possibleRides.sort_values(by='5', ascending=False)
 if len(impossibleRides) > 0:
     impossibleRides = impossibleRides.sort_values(by='5')
 
