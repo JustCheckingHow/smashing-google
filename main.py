@@ -8,7 +8,8 @@ from shared import *
 PATH = ""
 FILE = "a_example"
 
-# index, xstart, ystart, xend, yend, start, stop
+
+# ROWS: index, xstart, ystart, xend, yend, start, stop
 
 class Auto:
     def __init__(self, id):
@@ -19,14 +20,14 @@ class Auto:
         self.served = []
 
     def goRide(self, ride, current_tick):
-        self.ticksToFree = abs(self.x - ride[2]) + abs(self.y - ride[3])
+        self.ticksToFree = abs(self.x - ride[1]) + abs(self.y - ride[2])
         if 0 < ride[-2] - abs(self.y - ride[3]) - abs(self.x - ride[2]) - current_tick:
             self.ticksToFree += ride[-2] - abs(self.x - ride[2]) + abs(self.y - ride[3]) - current_tick
         self.ticksToFree += abs(ride[3] - ride[1]) + abs(ride[4] - ride[2])
-        self.served.append(ride[0])
 
-        self.x = ride[2]
-        self.y = ride[3]
+        self.served.append(ride[0])
+        self.x = ride[3]
+        self.y = ride[4]
 
     def tick(self):
         # Decrease ticks of the car
@@ -41,6 +42,7 @@ def get_free_cars():
             result.append(car)
     return result
 
+
 possibleRides = []
 impossibleRides = []
 
@@ -51,12 +53,15 @@ inputData.close()
 rides = pd.read_table(FILE + ".in", sep=' ')
 
 counter = 0
+print(rides)
 for i in rides.values:
     if (abs(i[2] - i[0]) + abs(i[3] - i[1])) >= abs(i[5] - i[4]):
-        possibleRides.append(np.insert(i, 0, counter))
-    else:
         impossibleRides.append(np.insert(i, 0, counter))
+    else:
+        possibleRides.append(np.insert(i, 0, counter))
     counter += 1
+
+print(possibleRides)
 
 # Sorting
 possibleRides = pd.DataFrame(possibleRides, columns=[str(x) for x in range(7)])
@@ -67,10 +72,11 @@ if len(impossibleRides) > 0:
 
 cars = []
 for i in range(vehicles):
-    cars.append(Auto(i+1))
+    cars.append(Auto(i + 1))
 cars = np.array(cars)
 
 # MAIN LOOP
+print(possibleRides)
 possibleRides = possibleRides.values
 for i in range(steps):
     freeCars = get_free_cars()
