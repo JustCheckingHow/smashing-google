@@ -1,5 +1,6 @@
 from OutputParser import OutputParser
 from InputParser import InputParser
+import numpy as np
 import math
 import pandas as pd
 
@@ -15,10 +16,19 @@ class Auto:
     def goRide(self, ride):
         self.x = ride[2]
         self.y = ride[3]
+        self.ticksToFree = abs(ride[2] - ride[0]) + abs(ride[3] - ride[1])
 
     def tick(self):
         if self.ticksToFree > 0:
             self.ticksToFree -= 1
+
+
+def get_free_cars():
+    freeCars = []
+    for car in cars:
+        if car.ticksToFree == 0:
+            freeCars.append(car)
+    return freeCars
 
 possibleRides = []
 impossibleRides = []
@@ -45,9 +55,11 @@ if len(impossibleRides)>0:
 cars = []
 for i in range(vehicles):
     cars.append(Auto())
+cars = np.array(cars)
 
 # MAIN LOOP
 for i in range(steps):
+    freeCars = get_free_cars()
     for car in cars:
         car.tick()
 
