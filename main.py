@@ -53,12 +53,15 @@ inputData.close()
 rides = pd.read_table(FILE + ".in", sep=' ')
 
 counter = 0
+print(rides)
 for i in rides.values:
     if (abs(i[2] - i[0]) + abs(i[3] - i[1])) >= abs(i[5] - i[4]):
-        possibleRides.append(np.insert(i, 0, counter))
-    else:
         impossibleRides.append(np.insert(i, 0, counter))
+    else:
+        possibleRides.append(np.insert(i, 0, counter))
     counter += 1
+
+print(possibleRides)
 
 # Sorting
 possibleRides = pd.DataFrame(possibleRides, columns=[str(x) for x in range(7)])
@@ -73,6 +76,7 @@ for i in range(vehicles):
 cars = np.array(cars)
 
 # MAIN LOOP
+print(possibleRides)
 possibleRides = possibleRides.values
 for i in range(steps):
     freeCars = get_free_cars()
