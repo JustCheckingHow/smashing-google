@@ -17,7 +17,7 @@ def decide_on_job(car, available_tracks):
                 car.goRide(track)
                 available_tracks.pop(i)
     # waits
-    return new_tracks
+    return available_tracks
 
 def is_track_doable(car, track, t):
     # first tracks that are ovedue land at the end
