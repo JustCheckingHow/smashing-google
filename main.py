@@ -7,6 +7,7 @@ import pandas as pd
 PATH = ""
 FILE = "a_example"
 
+# index, xstart, ystart, xend, yend, start, stop
 
 class Auto:
     def __init__(self, id):
@@ -16,8 +17,10 @@ class Auto:
         self.y = 0
         self.served = []
 
-    def goRide(self, ride):
+    def goRide(self, ride, current_tick):
         self.ticksToFree = abs(self.x - ride[2]) + abs(self.y - ride[3])
+        if 0 < ride[-2] - abs(self.y - ride[3]) - abs(self.x - ride[2]) - current_tick:
+            self.ticksToFree += ride[-2] - abs(self.x - ride[2]) + abs(self.y - ride[3]) - current_tick
         self.ticksToFree += abs(ride[3] - ride[1]) + abs(ride[4] - ride[2])
         self.served.append(ride[0])
 
