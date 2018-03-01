@@ -6,7 +6,7 @@ import pandas as pd
 from shared import *
 
 PATH = ""
-FILE = "b_should_be_easy"
+FILE = "d_metropolis"
 
 
 # ROWS: index, xstart, ystart, xend, yend, start, stop
@@ -80,6 +80,17 @@ for i in range(steps):
     if len(possibleRides) > 0:
         for car in freeCars:
             possibleRides = decide_on_job(car, possibleRides, i)
+            if len(possibleRides) == 0:
+                break
+    if len(possibleRides) > 0:
+        new_free_cars = get_free_cars()
+        extra = 1
+        while get_free_cars():
+            extra += 1
+            for car in get_free_cars():
+                possibleRides = leftover_tracks(car, possibleRides, i, extra)
+                if len(possibleRides) == 0:
+                    break
 
     for car in cars:
         car.tick()
