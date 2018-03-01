@@ -17,10 +17,12 @@ class Auto:
         self.served = []
 
     def goRide(self, ride):
+        self.ticksToFree = abs(self.x - ride[2]) + abs(self.y - ride[3])
+        self.ticksToFree += abs(ride[3] - ride[1]) + abs(ride[4] - ride[2])
+        self.served.append(ride[0])
+
         self.x = ride[2]
         self.y = ride[3]
-        self.ticksToFree = abs(ride[3] - ride[1]) + abs(ride[4] - ride[2])
-        self.served.append(ride[0])
 
     def tick(self):
         if self.ticksToFree > 0:
