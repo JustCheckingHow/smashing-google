@@ -3,6 +3,7 @@ from InputParser import InputParser
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 import pandas as pd
 from shared import *
 
@@ -75,33 +76,6 @@ cars = np.array(cars)
 
 # MAIN LOOP
 possibleRides = possibleRides.values
-
-for i in range(steps):
-    for k, car in enumerate(cars[:int(len(cars)*0.9)]):
-        car.goRide(possibleRides[k], i)
-
-    freeCars = get_free_cars()
-
-    if len(possibleRides) > 0:
-        for car in freeCars:
-            possibleRides = decide_on_job(car, possibleRides, i)
-            if len(possibleRides) == 0:
-                break
-    if len(possibleRides) > 0:
-        new_free_cars = get_free_cars()
-        extra = 1
-        while get_free_cars():
-            extra += 1000
-            for car in get_free_cars():
-                possibleRides = leftover_tracks(car, possibleRides, i, extra)
-                if len(possibleRides) == 0:
-                    break
-    for car in cars:
-        car.tick()
-
-# Save output
-outputData = OutputParser(PATH + FILE + ".out")
-for i in cars:
-    outputData.write([len(i.served)] + i.served)
-
-outputData.close()
+figure, ax = mpl.figure()
+plt.hexbin(possibleRides[:, 3], possibleRides[:, 4])
+plt.hexbin(possibleRides[:, 1], possibleRides[:, 2])
