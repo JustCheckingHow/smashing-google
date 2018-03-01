@@ -2,7 +2,7 @@ import numpy as np
 from copy import deepcopy
 
 DISTANCE = 400
-WAITING_TIME = 10
+WAITING_TIME = 50
 MAX_TRACK_DEPTH = 20
 
 

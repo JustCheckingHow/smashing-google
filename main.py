@@ -77,7 +77,9 @@ cars = np.array(cars)
 possibleRides = possibleRides.values
 
 for i in range(steps):
-    for k, car in enumerate(cars[:int(len(cars)*0.9)]):
+    freeCars = get_free_cars()
+
+    for k, car in enumerate(freeCars[:int(len(freeCars)*0.9)]):
         car.goRide(possibleRides[k], i)
 
     freeCars = get_free_cars()
