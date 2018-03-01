@@ -1,6 +1,7 @@
 from OutputParser import OutputParser
 from InputParser import InputParser
 import math
+import pandas as pd
 
 PATH = ""
 FILE = "a_example"
@@ -19,19 +20,11 @@ class Auto:
         if self.ticksToFree > 0:
             self.ticksToFree -= 1
 
-inputData = InputParser(PATH + FILE + ".in")
+inputData = InputParser(FILE + ".in")
 rows, columns, vehicles, numebrOfRides, bonusOnTime, steps = inputData.readLine()
-rides = []
-impossibleRides = []
-for i in range(steps):
-    ride = inputData.readLine()
-    if (abs(ride[2] - ride[0]) + abs(ride[3] - ride[1])) >= abs(ride[5] - ride[4]): 
-        rides.append(ride)
-    else:
-        impossibleRides.append(ride)
-
 inputData.close()
+
+rides = pd.read_table(FILE + ".in", sep=' ')
 
 outputData = OutputParser(PATH + FILE + ".out")
 outputData.close()
-
