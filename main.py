@@ -20,6 +20,9 @@ class Auto:
         if self.ticksToFree > 0:
             self.ticksToFree -= 1
 
+possibleRides = []
+impossibleRides = []
+
 inputData = InputParser(FILE + ".in")
 rows, columns, vehicles, numebrOfRides, bonusOnTime, steps = inputData.readLine()
 inputData.close()
@@ -28,3 +31,15 @@ rides = pd.read_table(FILE + ".in", sep=' ')
 
 outputData = OutputParser(PATH + FILE + ".out")
 outputData.close()
+
+for i in rides.values:
+    if (abs(i[2] - i[0]) + abs(i[3] - i[1])) >= abs(i[5] - i[4]):
+        impossibleRides.append(i)
+    else:
+        possibleRides.append(i)
+
+possibleRides = pd.DataFrame(possibleRides)
+impossibleRides = pd.DataFrame(impossibleRides)
+possibleRides.sort_values(by=4)
+impossibleRides.sort_values(by=4)
+
