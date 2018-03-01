@@ -7,7 +7,8 @@ import pandas as pd
 PATH = ""
 FILE = "a_example"
 
-# index, xstart, ystart, xend, yend, start, stop
+
+# ROWS: index, xstart, ystart, xend, yend, start, stop
 
 class Auto:
     def __init__(self, id):
@@ -18,14 +19,14 @@ class Auto:
         self.served = []
 
     def goRide(self, ride, current_tick):
-        self.ticksToFree = abs(self.x - ride[2]) + abs(self.y - ride[3])
+        self.ticksToFree = abs(self.x - ride[1]) + abs(self.y - ride[2])
         if 0 < ride[-2] - abs(self.y - ride[3]) - abs(self.x - ride[2]) - current_tick:
             self.ticksToFree += ride[-2] - abs(self.x - ride[2]) + abs(self.y - ride[3]) - current_tick
         self.ticksToFree += abs(ride[3] - ride[1]) + abs(ride[4] - ride[2])
-        self.served.append(ride[0])
 
-        self.x = ride[2]
-        self.y = ride[3]
+        self.served.append(ride[0])
+        self.x = ride[3]
+        self.y = ride[4]
 
     def tick(self):
         if self.ticksToFree > 0:
@@ -38,6 +39,7 @@ def get_free_cars():
         if car.ticksToFree == 0:
             result.append(car)
     return result
+
 
 possibleRides = []
 impossibleRides = []
@@ -65,7 +67,7 @@ if len(impossibleRides) > 0:
 
 cars = []
 for i in range(vehicles):
-    cars.append(Auto(i+1))
+    cars.append(Auto(i + 1))
 cars = np.array(cars)
 
 # MAIN LOOP
