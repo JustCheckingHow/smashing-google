@@ -73,7 +73,9 @@ for i in range(vehicles):
 cars = np.array(cars)
 
 # MAIN LOOP
+print(possibleRides)
 possibleRides = possibleRides.values
+print(possibleRides)
 for i in range(steps):
     freeCars = get_free_cars()
 
