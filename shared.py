@@ -1,7 +1,7 @@
 import numpy as np
 from copy import deepcopy
 
-DISTANCE = 10
+DISTANCE = 400
 MAX_TRACK_DEPTH = 20
 
 
@@ -32,7 +32,9 @@ def is_track_doable(car, track, t):
     # first tracks that are ovedue land at the end
     if track[-1] >= t + distance_from(car, track) + track_length(track):
         # has the track started yet? or is in the specified waiting time?
-        if (distance_from(car, track) + t - track[-2]) >= -5:
+        if (distance_from(car, track) + t - track[-2]) >= -DISTANCE:
             return True
+        else:
+            return False
     else:
         return False
