@@ -6,7 +6,7 @@ import pandas as pd
 from shared import *
 
 PATH = ""
-FILE = "a_example"
+FILE = "b_should_be_easy"
 
 
 # ROWS: index, xstart, ystart, xend, yend, start, stop
@@ -73,16 +73,13 @@ for i in range(vehicles):
 cars = np.array(cars)
 
 # MAIN LOOP
-print(possibleRides)
 possibleRides = possibleRides.values
-print(possibleRides)
 for i in range(steps):
     freeCars = get_free_cars()
 
     if len(possibleRides) > 0:
         for car in freeCars:
             possibleRides = decide_on_job(car, possibleRides, i)
-            print(possibleRides)
 
     for car in cars:
         car.tick()
@@ -90,6 +87,6 @@ for i in range(steps):
 # Save output
 outputData = OutputParser(PATH + FILE + ".out")
 for i in cars:
-    outputData.write([i.id] + i.served)
+    outputData.write([len(i.served)] + i.served)
 
 outputData.close()

@@ -18,12 +18,10 @@ def decide_on_job(car, available_tracks, t):
 
     new_tracks = deepcopy(available_tracks)
     for i, track in enumerate(new_tracks):
-        print(track)
         if distance_from(car, track) < DISTANCE:
             # pop track
             if is_track_doable(car, track, t):
                 car.goRide(track, t)
-                print('goRide')
                 new_tracks = np.delete(available_tracks, (0), axis = 0)
                 return new_tracks
     # waits
