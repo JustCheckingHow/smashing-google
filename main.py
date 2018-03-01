@@ -29,17 +29,27 @@ inputData.close()
 
 rides = pd.read_table(FILE + ".in", sep=' ')
 
-outputData = OutputParser(PATH + FILE + ".out")
-outputData.close()
-
 for i in rides.values:
     if (abs(i[2] - i[0]) + abs(i[3] - i[1])) >= abs(i[5] - i[4]):
         impossibleRides.append(i)
     else:
         possibleRides.append(i)
 
+# Sorting
 possibleRides = pd.DataFrame(possibleRides)
 impossibleRides = pd.DataFrame(impossibleRides)
 possibleRides = possibleRides.sort_values(by=4)
-impossibleRides = impossibleRides.sort_values(by=4)
+if len(impossibleRides)>0:
+    impossibleRides = impossibleRides.sort_values(by=4)
 
+cars = []
+for i in range(vehicles):
+    cars.append(Auto())
+
+# MAIN LOOP
+for i in range(steps):
+    for car in cars:
+        car.tick()
+
+outputData = OutputParser(PATH + FILE + ".out")
+outputData.close()
