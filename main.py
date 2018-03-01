@@ -40,6 +40,6 @@ for i in rides.values:
 
 possibleRides = pd.DataFrame(possibleRides)
 impossibleRides = pd.DataFrame(impossibleRides)
-possibleRides.sort_values(by=4)
-impossibleRides.sort_values(by=4)
+possibleRides = possibleRides.sort_values(by=4)
+impossibleRides = impossibleRides.sort_values(by=4)
 
