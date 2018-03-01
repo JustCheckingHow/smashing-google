@@ -1,7 +1,8 @@
 from OutputParser import OutputParser
 from InputParser import InputParser
+import math
 
-PATH = "E:\\GoogleHashCode2018\\"
+PATH = ""
 FILE = "a_example"
 
 class Auto:
@@ -21,8 +22,13 @@ class Auto:
 inputData = InputParser(PATH + FILE + ".in")
 rows, columns, vehicles, numebrOfRides, bonusOnTime, steps = inputData.readLine()
 rides = []
+impossibleRides = []
 for i in range(steps):
-    rides.append(inputData.readLine())
+    ride = inputData.readLine()
+    if (abs(ride[2] - ride[0]) + abs(ride[3] - ride[1])) >= abs(ride[5] - ride[4]): 
+        rides.append(ride)
+    else:
+        impossibleRides.append(ride)
 
 inputData.close()
 
