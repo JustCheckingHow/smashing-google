@@ -3,6 +3,7 @@ from InputParser import InputParser
 import numpy as np
 import math
 import pandas as pd
+from shared import *
 
 PATH = ""
 FILE = "a_example"
@@ -29,6 +30,7 @@ class Auto:
         self.y = ride[4]
 
     def tick(self):
+        # Decrease ticks of the car
         if self.ticksToFree > 0:
             self.ticksToFree -= 1
 
@@ -53,17 +55,17 @@ rides = pd.read_table(FILE + ".in", sep=' ')
 counter = 0
 for i in rides.values:
     if (abs(i[2] - i[0]) + abs(i[3] - i[1])) >= abs(i[5] - i[4]):
-        impossibleRides.append(np.insert(i, 0, counter))
-    else:
         possibleRides.append(np.insert(i, 0, counter))
+    else:
+        impossibleRides.append(np.insert(i, 0, counter))
     counter += 1
 
 # Sorting
-possibleRides = pd.DataFrame(possibleRides)
-impossibleRides = pd.DataFrame(impossibleRides)
-possibleRides = possibleRides.sort_values(by=4)
+possibleRides = pd.DataFrame(possibleRides, columns=[str(x) for x in range(7)])
+impossibleRides = pd.DataFrame(impossibleRides, columns=[str(x) for x in range(7)])
+possibleRides = possibleRides.sort_values(by='5')
 if len(impossibleRides) > 0:
-    impossibleRides = impossibleRides.sort_values(by=4)
+    impossibleRides = impossibleRides.sort_values(by='5')
 
 cars = []
 for i in range(vehicles):
@@ -71,9 +73,11 @@ for i in range(vehicles):
 cars = np.array(cars)
 
 # MAIN LOOP
+possibleRides = possibleRides.values
 for i in range(steps):
     freeCars = get_free_cars()
     for car in cars:
+        possibleRides = decide_on_job(car, possibleRides, i)
         car.tick()
 
 # Save output
