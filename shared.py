@@ -9,12 +9,14 @@ def distance_from(car, track):
 def track_length(track):
     return np.abs(track[1] - track[3]) + np.abs(track[4] - track[5])
 
-def decide_on_job(car, available_tracks):
+def decide_on_job(car, available_tracks, t):
     for i, track in enumerate(available_tracks):
         if distance_from(car, track) < DISTANCE:
+            print('distance ok')
             # pop track
             if is_track_doable(car, track, t):
-                car.goRide(track)
+                car.goRide(track, t)
+                print('goRide')
                 available_tracks.pop(i)
     # waits
     return available_tracks
