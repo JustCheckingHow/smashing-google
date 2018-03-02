@@ -79,11 +79,6 @@ possibleRides = possibleRides.values
 for i in range(steps):
     freeCars = get_free_cars()
 
-    for k, car in enumerate(freeCars[:int(len(freeCars)*0.9)]):
-        car.goRide(possibleRides[k], i)
-
-    freeCars = get_free_cars()
-
     if len(possibleRides) > 0:
         for car in freeCars:
             possibleRides = decide_on_job(car, possibleRides, i)
@@ -93,7 +88,7 @@ for i in range(steps):
         new_free_cars = get_free_cars()
         extra = 1
         while get_free_cars():
-            extra += 1000
+            extra += 1
             for car in get_free_cars():
                 possibleRides = leftover_tracks(car, possibleRides, i, extra)
                 if len(possibleRides) == 0:
