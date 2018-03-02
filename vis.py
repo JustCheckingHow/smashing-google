@@ -5,7 +5,9 @@ import math
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
+import seaborn as sns
 from shared import *
+import pandas.tools.plotting
 
 PATH = ""
 FILE = "d_metropolis"
@@ -44,6 +46,14 @@ def get_free_cars():
             result.append(car)
     return result
 
+def mult():
+    x = []
+    for i in possibleRides['0']:
+        if i==1:
+            x.append('r')
+        else:
+            x.append('b')
+    return x
 
 possibleRides = []
 impossibleRides = []
@@ -53,29 +63,50 @@ rows, columns, vehicles, numebrOfRides, bonusOnTime, steps = inputData.readLine(
 inputData.close()
 
 rides = pd.read_table(FILE + ".in", sep=' ')
+color = []
 
-counter = 0
 for i in rides.values:
-    if (abs(i[2] - i[0]) + abs(i[3] - i[1])) >= abs(i[5] - i[4]):
-        impossibleRides.append(np.insert(i, 0, counter))
+    if (abs(i[2] - i[0]) + abs(i[3] - i[1]) + i[1]+i[0]) >= abs(i[5] - i[4]):
+        possibleRides.append(np.insert(i, 0, 1))
+        color.append('r')
     else:
-        possibleRides.append(np.insert(i, 0, counter))
-    counter += 1
+        color.append('b')
+        possibleRides.append(np.insert(i, 0, 0))
 
 # Sorting
 possibleRides = pd.DataFrame(possibleRides, columns=[str(x) for x in range(7)])
 impossibleRides = pd.DataFrame(impossibleRides, columns=[str(x) for x in range(7)])
-possibleRides = possibleRides.sort_values(by='5', ascending=False)
-if len(impossibleRides) > 0:
-    impossibleRides = impossibleRides.sort_values(by='5')
 
-cars = []
-for i in range(vehicles):
-    cars.append(Auto(i + 1))
-cars = np.array(cars)
 
 # MAIN LOOP
-possibleRides = possibleRides.values
-figure, ax = mpl.figure()
-plt.hexbin(possibleRides[:, 3], possibleRides[:, 4])
-plt.hexbin(possibleRides[:, 1], possibleRides[:, 2])
+# plt.figure()
+sns.jointplot(possibleRides['3'], possibleRides['4'], kind='hex', xlim=[-0.1*rows, rows*1.1], ylim=[-0.1*rows, columns*1.1])
+plt.suptitle(FILE+' destinations')
+
+# plt.figure()
+sns.jointplot(possibleRides['1'], possibleRides['2'], kind='hex', xlim=[-0.1*rows, rows*1.1], ylim=[-0.1*rows, columns*1.1])
+plt.suptitle(FILE+' origins')
+
+plt.figure()
+plt.subplot(211)
+plt.scatter(possibleRides['1'], possibleRides['2'], alpha=0.2, c=color)
+plt.title('Origins')
+plt.xlim([-0.1*rows, rows*1.1])
+plt.ylim([-0.1*rows, columns*1.1])
+
+plt.subplot(212)
+plt.scatter(possibleRides['3'], possibleRides['4'], alpha=0.2, c=color)
+plt.title('Destinations')
+plt.xlim([-0.1*rows, rows*1.1])
+plt.ylim([-0.1*rows, columns*1.1])
+plt.tight_layout()
+
+plt.figure()
+plt.plot([possibleRides['1'], possibleRides['3']], [possibleRides['2'], possibleRides['4']], alpha=0.2)
+plt.scatter(possibleRides['1'], possibleRides['2'], marker='o', s=.5)
+plt.title(FILE+' routes')
+plt.show()
+
+
+# plt.figure()
+# sns.kdeplot(possibleRides['6'])
