@@ -7,7 +7,7 @@ import pandas as pd
 from shared import *
 
 PATH = ""
-FILE = "d_metropolis"
+FILE = "c_no_hurry"
 
 
 # ROWS: index, xstart, ystart, xend, yend, start, stop
